@@ -27,49 +27,47 @@ function App() {
   
 
 
-  const handleKeyPress = (keyCode,key) => {
+  const handleKeyPress = (keyCode, key) => {
     if (!keyCode) return;
     if (!usedKeyCodes.includes(keyCode)) return;
-
+  
     if (numbers.includes(key)) {
       if (key === "0") {
         if (expression.length === 0) return;
       }
       calculateResult(expression + key);
       setExpression(expression + key);
-    } 
-    else if (operators.includes(key)) {
+    } else if (operators.includes(key)) {
       if (!expression) return;
-
+  
       const lastChar = expression.slice(-1);
       if (operators.includes(lastChar)) return;
       if (lastChar === ".") return;
-
+  
       setExpression(expression + key);
-    }
-     else if (key === ".") {
+    } else if (key === ".") {
       if (!expression) return;
       const lastChar = expression.slice(-1);
       if (!numbers.includes(lastChar)) return;
-
+  
       setExpression(expression + key);
-    }
-     else if (keyCode === 8) { // backspace
+    } else if (keyCode === 8) { // backspace
       if (!expression) return;
       calculateResult(expression.slice(0, -1));
       setExpression(expression.slice(0, -1));
-    } 
-    else if (keyCode === 13) { // enter key
-      if (!expression) return;
+    } else if (keyCode === 13) { // enter key
+      if (!expression || operators.includes(expression.slice(-1)) || expression.slice(-1) === ".") return;
+  
       calculateResult(expression);
       setExpression("");
-
+  
       let tempHistory = [...history];
       if (tempHistory.length > 20) tempHistory = tempHistory.splice(0, 1);
       tempHistory.push(expression);
       setHistory(tempHistory);
     }
-  }
+  };
+  
 
   const calculateResult = (exp) => {
     if (!exp) {
