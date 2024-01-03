@@ -75,14 +75,26 @@ function App() {
   const calculateResult = (exp) => {
     if (!exp) {
       setResult("");
-      return;
+      return null;
     }
+  
     const lastChar = exp.slice(-1);
-    if (!numbers.includes(lastChar)) exp = exp.slice(0, -1);
-
-    const answer = eval(exp).toFixed(2) + "";
-    setResult(answer);
+    if (!numbers.includes(lastChar)) {
+      exp = exp.slice(0, -1);
+    }
+  
+    try {
+      const answer = eval(exp).toFixed(2);
+      setResult(answer);
+      return answer;
+    } catch (error) {
+      // Handle invalid expressions or errors here
+      console.error("Calculation error:", error);
+      setResult("");
+      return null;
+    }
   };
+  
 
   useEffect(() => {
     localStorage.setItem("calculator-app-mode", JSON.stringify(isDarkMode));
