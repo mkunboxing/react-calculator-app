@@ -57,8 +57,10 @@ function App() {
       setExpression(expression.slice(0, -1));
     } else if (keyCode === 13) { // enter key
       if (!expression || operators.includes(expression.slice(-1)) || expression.slice(-1) === ".") return;
+      
+      let result = calculateResult(expression);
+      if (result === null || result === undefined) return; // Check if calculation is possible
   
-      calculateResult(expression);
       setExpression("");
   
       let tempHistory = [...history];
@@ -67,6 +69,7 @@ function App() {
       setHistory(tempHistory);
     }
   };
+  
   
 
   const calculateResult = (exp) => {
