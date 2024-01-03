@@ -55,12 +55,12 @@ function App() {
       if (!expression) return;
       calculateResult(expression.slice(0, -1));
       setExpression(expression.slice(0, -1));
-    } else if (keyCode === 13) { // enter key
-      if (!expression || operators.includes(expression.slice(-1)) || expression.slice(-1) === ".") return;
-      
-      let result = calculateResult(expression);
-      if (result === null || result === undefined) return; // Check if calculation is possible
+    } 
+    else if (keyCode === 13) { // enter key
+    if (!expression || operators.includes(expression.slice(-1)) || expression.slice(-1) === "." || expression.split(/[-+*/]/).length < 2) return;
   
+    const result = calculateResult(expression);
+    if (result !== null) {
       setExpression("");
   
       let tempHistory = [...history];
@@ -68,6 +68,7 @@ function App() {
       tempHistory.push(expression);
       setHistory(tempHistory);
     }
+  }
   };
   
   
